@@ -1,0 +1,13 @@
+{
+  "name": "ngECharts",
+  "homepage": "https://github.com/GoldyMark/ngECharts",
+  "_release": "86cd9981bc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "86cd9981bc4642847b4151102a1824b4fd065ec3"
+  },
+  "_source": "https://github.com/GoldyMark/ngECharts.git",
+  "_target": "*",
+  "_originalSource": "ngECharts"
+}

@@ -1,0 +1,244 @@
+<div class="page" data-ng-controller="EditLinkCtrl">
+
+  <div class="row ui-section">
+    <div class="col-lg-8 clearfix">
+      <h2 class="section-header">{{title}}</h2>
+    </div>
+    <div class="col-md-12">
+      <section class="panel panel-default cl-panel-loading">
+        <div class="panel-body padding-xl">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+
+              <form role="form" data-ng-submit="submit($event)">
+
+                <div>
+                  <md-input-container style="width: 200px;">
+                    <label>Select an Angle</label>
+                    <md-select ng-model="link.angle" ng-change="angleChange()">
+                      <md-option ng-repeat="ang in angles" value="{{ang}}">{{ang}}</md-option>
+                    </md-select>
+                  </md-input-container>
+
+                  <md-input-container style="margin-left: 20px; width: 200px;">
+                    <label>Select an Network</label>
+                    <md-select ng-model="link.network" ng-change="networkChange()">
+                      <md-option ng-repeat="net in networks" value="{{net}}">{{net}}</md-option>
+                    </md-select>
+                  </md-input-container>
+
+                  <md-input-container style="margin-left: 20px; width: 200">
+                    <label>Enable Time<!-- (EST)--></label>
+                    <md-select ng-model="link.enable_at">
+                      <md-option ng-repeat="time in times" ng-value="{{time.val}}">{{time.text}}</md-option>
+                    </md-select>
+                  </md-input-container>
+
+                  <!--11.25 alex added-->
+                  <md-input-container style="margin-left: 20px; width: 200">
+                    <label>Disable Time<!-- (EST)--></label>
+                    <md-select ng-model="link.disable_at">
+                      <md-option ng-repeat="time in times" ng-value="{{time.val}}">{{time.text}}</md-option>
+                    </md-select>
+                  </md-input-container>
+
+                </div>
+
+                <md-select ng-model="link.type" class="md-block" ng-change="typeChange()" style="width: 420px; margin: 20px 0 30px;">
+                  <!-- <md-option value="0">Placeholder</md-option> -->
+                  <md-option value="1" selected>In Place</md-option>
+                  <md-option value="2">Redirect</md-option>
+                </md-select>
+
+                <md-input-container class="md-block" ng-show="voluumShown">
+                  <label>Voluum Link</label>
+                  <input ng-model="link.link_voluum">
+                </md-input-container>
+                
+                <md-input-container class="md-block">
+                  <label>Safe Link</label>
+                  <input ng-model="link.link_safe" ng-change="generateLink()">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>Generated Link</label>
+                  <input ng-model="link.link_generated" disabled>
+                </md-input-container>
+
+                <div layout="row" layout-align="space-between none">
+                  <div flex style="margin-right:10px">
+                    <md-input-container style="width: 100%;">
+                      <label>Payout</label>
+                      <input ng-model="link.payout">
+                    </md-input-container>
+                  </div>
+
+                  <div flex>
+                    <md-input-container style="width: 100%;">
+                      <label>CPC</label>
+                      <input ng-model="link.cpc">
+                    </md-input-container>
+                  </div>
+                </div>
+
+                <div class="divider divider-md"></div>
+
+                <md-input-container class="md-block">
+                  <label>UTM Source (outbrain, taboola)</label>
+                  <input ng-model="query.utm_source" pattern="^[0-9a-zA-Z_-]*$" ng-pattern-restrict ng-change="generateLink()">
+                  <div class="hint">The referrer (required)</div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>UTM Medium (cpc, banner, email)</label>
+                  <input ng-model="query.utm_medium" pattern="^[0-9a-zA-Z_-]*$" ng-pattern-restrict ng-change="generateLink()">
+                  <div class="hint">Marketing medium (required)</div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>UTM Campaign (spring_sale)</label>
+                  <input ng-model="query.utm_campaign" pattern="^[0-9a-zA-Z_-]*$" ng-pattern-restrict ng-change="generateLink()">
+                  <div class="hint">Product, promo code, or slogan (required)</div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>UTM Term (melissa_mccarthy+election)</label>
+                  <input ng-model="query.utm_term" pattern="^[0-9a-zA-Z_+-]*$" ng-pattern-restrict ng-change="generateLink()">
+                  <div class="hint">Identify the paid keywords (optional)</div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>UTM Content (logolink, textlink)</label>
+                  <input ng-model="query.utm_content" pattern="^[0-9a-zA-Z_-]*$" ng-pattern-restrict ng-change="generateLink()">
+                  <div class="hint">Use to differentiate ads (optional)</div>
+                </md-input-container>
+                
+
+                <div class="divider divider-lg"></div>
+
+                <md-input-container class="md-block" style="margin-top:60px;">
+                  <label>Description</label>
+                  <textarea ng-model="link.description"></textarea>
+                </md-input-container>
+
+                <md-chips
+                  ng-model="link.tags"
+                  placeholder="Enter a tag"
+                  delete-button-label="Remove Tag"
+                  delete-hint="Press delete to remove tag"
+                  secondary-placeholder="Enter tags">
+
+                  <md-autocomplete
+                    placeholder="Enter a tag"
+                    md-selected-item="selectedTag"
+                    md-search-text="searchText"
+                    md-items="tag in searchedTags(searchText)"
+                    md-item-text="tag">
+
+                    <span md-highlight-text="searchText">{{tag}}</span>
+                    
+                  </md-autocomplete>
+                </md-chips>
+                <div class="divider divider-lg"></div>
+                <div style="margin-top:40px;">
+                  <span>Ban first:&nbsp;&nbsp;</span>
+                  <input ng-model="link.auto_blacklist_count" type="text" class="form-control" style="display: inline-block; width: 50px;"/>
+                  <span>&nbsp;&nbsp;IPs</span>
+                </div>
+                <!--<md-checkbox ng-model="link.ban_corporate" aria-label="Ban Corporate ISPs">Ban Corporate ISPs</md-checkbox>-->
+                <!--<div class="divider divider-md"></div>-->
+                
+                <!-- Allowed Locations -->
+                <div class="divider divider-xl"></div>
+                <h4>
+                  Allowed Geolocations&nbsp;&nbsp;
+                  <i class="zmdi zmdi-plus-circle" style="color:rgb(0,188,212);cursor:pointer" ng-click="addNewLocation()"></i>
+                </h4>
+                <div class="divider divider-lg"></div>
+                <table class="table no-margin">
+                  <thead>
+                    <th>Country</th>
+                    <th>State/Region</th>
+                    <th>City</th>
+                    <th></th>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="criterion in link.criteria">
+                      <td>
+                        <select class="form-control" ng-model="criterion.country" ng-change="updateRegions($index)">
+                          <option ng-repeat="country in countries" value="{{country.code}}">{{country.longname}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control" ng-model="criterion.region">
+                          <option ng-repeat="region in regions[$index]" value="{{region.code}}">{{region.longname}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" ng-model="criterion.city">
+                      </td>
+                      <td>
+                        <md-button class="md-icon-button md-warn" aria-label="delete" ng-click="removeCriteria($index)">
+                          <span class="fa fa-remove"></span>
+                        </md-button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- Disallowed Locations -->
+                <div class="divider divider-xl"></div>
+                <h4>
+                  Disallowed Geolocations&nbsp;&nbsp;
+                  <i class="zmdi zmdi-plus-circle" style="color:rgb(0,188,212);cursor:pointer" ng-click="addNewDisallowedLocation()"></i>
+                </h4>
+                <div class="divider divider-lg"></div>
+                <table class="table no-margin">
+                  <thead>
+                    <th>Country</th>
+                    <th>State/Region</th>
+                    <th>City</th>
+                    <th></th>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="criterion in link.criteria_disallow">
+                      <td>
+                        <select class="form-control" ng-model="criterion.country" ng-change="updateDisallowRegions($index)">
+                          <option ng-repeat="country in countries" value="{{country.code}}">{{country.longname}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control" ng-model="criterion.region">
+                          <option ng-repeat="region in regions_disallow[$index]" value="{{region.code}}">{{region.longname}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" ng-model="criterion.city">
+                      </td>
+                      <td>
+                        <md-button class="md-icon-button md-warn" aria-label="delete" ng-click="removeDisallowedCriteria($index)">
+                          <span class="fa fa-remove"></span>
+                        </md-button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="divider divider-xl"></div>
+                <div style="margin-top:100px;">
+                  <md-button type="submit" class="md-raised md-primary btn-w-md">{{submitButtonTitle}}</md-button>
+                  <div class="space"></div>
+                  <md-button class="md-raised btn-w-md" data-ng-click="gotoLinks()">Back</md-button>
+                  <div class="space" style="margin-right: 40px;"></div>
+                  <md-checkbox ng-model="link.use_ip_blacklist" aria-label="Filter blacklisted IP and geolocations">Filter blacklisted IP and geolocations</md-checkbox>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+</div>

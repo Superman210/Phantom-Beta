@@ -1,0 +1,110 @@
+<div class="page page-table" data-ng-controller="TrafficsReportCtrl">
+  <div class="row ui-section">
+    <div class="col-lg-8 clearfix">
+      <h2 class="section-header">Traffics</h2>
+    </div>
+    <div class="col-md-12">
+      <section class="panel panel-default table-dynamic cl-panel-loading">
+        <div class="panel-body">
+          <div class="table-filters">
+            <div class='divider divider-md' style="height: 1px;margin: 15px 0;"></div>
+            <div class="row">
+              <div class="col-md-2 col-xs-10" style="width: 200px">
+                <md-datepicker ng-model="fromDate" md-placeholder="From date"></md-datepicker>
+              </div>
+              <div class="col-md-2 col-xs-10" style="width: 200px">
+                <md-datepicker ng-model="toDate" md-placeholder="To date"></md-datepicker>
+              </div>
+              <div class="col-md-2 col-xs-10" style="width: 100px">
+                <md-button class="md-raised btn-w-lg md-primary" ng-disabled="!dateSelected()" data-ng-click="date()" style="margin-left: 20px;width: 100px;min-width: 0;">
+                  Go
+                </md-button>
+              </div>
+            </div>
+            <div class='divider divider-md' style="height: 1px;margin: 10px 0;"></div>
+            <div class="row">
+              <div class="col-md-5">
+                <!-- filter here -->  
+              </div>
+              <div class="col-md-3 col-xs-2">
+                <md-progress-circular class="md-accent" md-mode="indeterminate" md-diameter="40" ng-show='searchUpdating'></md-progress-circular>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table cl-table-with-buttons">
+              <thead>
+                <tr>
+                  <th><div style="width:250px;">ID</div></th>
+
+                  <th><div style="min-width:100px;text-align:right;">Profit</div></th>
+                  <th><div style="min-width:100px;text-align:right;">Revenue</div></th>
+                  <th><div style="min-width:100px;text-align:right;">Expenditure</div></th>
+
+                  <th><div style="min-width:100px;text-align:right;">Link Enabled Profit</div></th>
+
+                  <th><div style="min-width:100px;text-align:right;">Link Paused Expenditure</div></th>
+
+                  <th><div style="min-width:100px;text-align:right;">Conversions</div></th>
+                  <th><div style="min-width:100px;text-align:right;">Offer Clicks</div></th>
+                  <th><div style="min-width:100px;text-align:right;">Presale Hits</div></th>
+                  <th><div style="min-width:100px;text-align:right;">Link Paused Hits</div></th>
+                  <th><div style="min-width:100px;text-align:right;">Total Hits</div></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="traffic in traffics">
+                  <td>{{traffic.id}}</td>
+
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.profit}}</span> 
+                    <span class="per-person">({{traffic.profitPerPerson}})</span>
+                  </td>
+                  
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.revenue}}</span> 
+                    <span class="per-person">({{traffic.revenuePerPerson}})</span>
+                  </td>
+
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.expenditure}}</span> 
+                    <span class="per-person">({{traffic.expenditurePerPerson}})</span>
+                  </td>
+
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.profitEnabled}}</span> 
+                    <span class="per-person">({{traffic.profitPerPersonEnabled}})</span>
+                  </td>
+
+                  <td style="text-align:right">{{traffic.expenditureDisabled}}</td>
+
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.conversions}}</span> 
+                    <span class="percent">({{traffic.conversionPercent}}%)</span>
+                  </td>
+
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.offerPageHits}}</span> 
+                    <span class="percent">({{traffic.offerClickPercent}}%)</span>
+                  </td>
+
+                  <td style="text-align:right">
+                    <span class="main">{{traffic.presaleHits}}</span> 
+                    <span class="percent">({{traffic.filterPassPercent}}%)</span>
+                  </td>
+                  
+                  <td style="text-align:right">{{traffic.linkHitsDisabled}}</td>
+                  <td style="text-align:right">{{traffic.linkHits}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <footer class="table-footer">
+        </footer>
+      </section>
+    </div>
+  </div>
+
+</div>

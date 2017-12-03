@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="/this-is-a-static-dir/bower_components/angular-material/angular-material.min.css">
+	<link rel="stylesheet" href="/this-is-a-static-dir/styles/bootstrap.css">
+    <link rel="stylesheet" href="/this-is-a-static-dir/styles/ui.css">
+    <link rel="stylesheet" href="/this-is-a-static-dir/styles/main.css">
+    <style>
+    body {
+    	background-color: #EDF0F1;
+    	position: relative;
+        height: 100%;
+    }
+    .box {
+    	-webkit-box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    	-moz-box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    	box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    	position: absolute;
+    	left: 50%;
+    	top: 45%;
+    	margin-left: -250px;
+    	margin-top: -170px;
+    	width: 500px;
+    	height: 350px;
+    	background-color: #fff;
+    	text-align: center;
+    	padding-top: 60px;
+    }
+    .box .title {
+    	font-size: 40px;
+    	color: #009688;
+    	margin-bottom: 80px;
+    }
+    </style>
+	<title><%= title %></title>
+</head>
+
+<body>
+	<div class="box">
+		<form action="/admin/action/login" method="post" name="login" id="login">
+			<div>
+				<label>Username:</label>
+				<input type="text" id="username" name="username" />
+			</div>
+			<div>
+				<label>Password:</label>
+				<input type="password" id="password" name="password" />
+			</div>
+			<div>
+				<input type="submit" value="Log In" />
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		document.getElementById('username').focus();
+	</script>
+</body>
+
+</html>

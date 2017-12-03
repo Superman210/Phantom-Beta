@@ -1,0 +1,71 @@
+<div class="nav-wrapper">
+  <ul id="nav" class="nav"
+    data-slim-scroll
+    data-collapse-nav
+    data-highlight-active>
+    <li class="nav-title">Navigation</li>
+    <li>
+      <a md-button aria-label="menu" href="#/links"><i class="zmdi zmdi-directions"></i>Links</a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/links/list">All Links</a></li>
+        <li><a md-button aria-label="menu" href="#/links/new">New Link</a></li>
+      </ul>
+    </li>
+    <li>
+      <a md-button aria-label="menu" href="#/traffics/link/list"><i class="zmdi zmdi-traffic"></i>Traffic</a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/traffics/link/list">Link Traffic</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/traffics/all/country/Israel">Israel Traffic</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/traffics/all/list">All Traffic</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/traffics/report">Report</a></li>
+      </ul>
+    </li>
+    <li>
+      <a md-button aria-label="menu" href="#/ipblacklist">
+        <i class="zmdi zmdi-shield-security"></i> IP Blacklist
+      </a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/ipblacklist/list">IP Blacklist</a></li>
+        <li><a md-button aria-label="menu" href="#/ipblacklist/new">Ban IP</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/ipblacklist/import">Import</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/ipblacklist/export">Export</a></li>
+      </ul>
+    </li>
+    <li>
+      <a md-button aria-label="menu" href="#/ipblacklist">
+        <i class="zmdi zmdi-shield-check"></i> IP Whitelist
+      </a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/ipwhitelist/list">IP Whitelist</a></li>
+        <li><a md-button aria-label="menu" href="#/ipwhitelist/new">Whitelist IP</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/ipwhitelist/import">Import</a></li>
+        <li ng-show="userRole == 'admin'"><a md-button aria-label="menu" href="#/ipwhitelist/export">Export</a></li>
+      </ul>
+    </li>
+    <li>
+      <a md-button aria-label="menu" href="#/geoblacklist"><i class="zmdi zmdi-pin"></i>Geolocation Blacklist</a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/geoblacklist/list">All Items</a></li>
+        <li><a md-button aria-label="menu" href="#/geoblacklist/new">Add an Item</a></li>
+        <li><a md-button aria-label="menu" href="#/geoblacklist/import">Import</a></li>
+        <li><a md-button aria-label="menu" href="#/geoblacklist/export">Export</a></li>
+      </ul>
+    </li>
+    <li>
+      <a md-button aria-label="menu" href="#/angles/list"><i class="zmdi zmdi-tag"></i>Tags</a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/angles/list">Angles</a></li>
+        <li><a md-button aria-label="menu" href="#/angles/new">Add Angle</a></li>
+        <li><a md-button aria-label="menu" href="#/networks/list">Networks</a></li>
+        <li><a md-button aria-label="menu" href="#/networks/new">Add Network</a></li>
+      </ul>
+    </li>
+    <li ng-show="userRole == 'admin'">
+      <a md-button aria-label="menu" href="#/users"><i class="zmdi zmdi-accounts"></i>Users</a>
+      <ul>
+        <li><a md-button aria-label="menu" href="#/users/list">All Users</a></li>
+        <li><a md-button aria-label="menu" href="#/users/new">New User</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,97 @@
+
+// Shared variables and mixins
+@import 
+  "global/var",                      // global variables
+  "global/var-extra",                  // extra global variables
+  "bootstrap/bootstrap/mixins",        // Bootstrap mixins
+  "bourbon/bourbon"                   // mixins
+;
+
+
+@import 
+  "global/shared",
+    
+// Plugins, overrides plugins' style
+  "plugins/angular-bootstrap",
+  "plugins/angular-material",
+  "plugins/angular-ui-tree",
+  "plugins/responsive-tables",
+  "plugins/jquery-steps",
+
+// Pages
+  "global/var-pages",
+  "pages/dashboard",
+  "pages/pages",
+  "pages/error",
+  "pages/auth",
+  "pages/profile",
+  "pages/invoice",
+  "pages/ui",
+  "pages/link",
+  "pages/traffic",
+  "pages/link-traffic",
+  "pages/features",
+  "pages/demo",
+  "pages/demo-material",
+
+// sections
+  "layout/layouts",
+  "layout/nav",
+  "layout/nav-off-canvas",
+  "layout/nav-horizontal",
+  "layout/nav-min",
+  "layout/nav-color",
+  "layout/header",
+  "layout/body"
+;
+
+// cloaker custom css
+@import "cloaker/elements.scss";
+
+.hint {
+    position: absolute;
+    left: 2px;
+    right: auto;
+    bottom: 7px;
+    font-size: 12px;
+    line-height: 14px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    color: grey;
+}
+
+.zmdi-check-circle {
+  color: rgb(0,150,136);
+  font-size: 20px;
+}
+
+.zmdi-close-circle {
+  color: #8E0000;
+  font-size: 20px;
+}
+
+.zmdi-pause {
+  color: #CCC;
+  font-size: 20px;
+}
+
+td, th {
+  white-space: nowrap;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.isBot {
+  background: #efefef;
+}
+
+.md-subheader .md-subheader-inner {
+  padding-left: 0 !important;
+}
+
+.all-traffic-table td {
+  padding: 12px 10px !important;
+}

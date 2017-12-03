@@ -1,0 +1,43 @@
+<div class="page" data-ng-controller="EditUserCtrl">
+
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header">{{title}}</h2>
+        </div>
+        <div class="col-md-12">
+            <section class="panel panel-default cl-panel-loading">
+                <div class="panel-body padding-xl">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+
+                            <form role="form" data-ng-submit="submit($event)">
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>Username</label>
+                                    <input ng-model="user.username">
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>Role</label>
+                                    <md-select ng-model="user.role">
+                                        <md-option value="admin">Admin</md-option>
+                                        <md-option value="user">User</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>Password</label>
+                                    <input ng-model="user.password" type="password">
+
+                                <div class="divider divider-xl"></div>
+                                <md-button type="submit" class="md-raised md-primary btn-w-md">{{submitButtonTitle}}</md-button>
+                                <div class="space"></div>
+                                <md-button class="md-raised btn-w-md" data-ng-click="gotoList()">Back</md-button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,51 @@
+
+.page-icons {
+    .page-header {
+        border-bottom: 0;
+    }
+    .icon-material {
+        .zmdi {
+            display: block;
+            height: 80px;
+            font-size: 1.5em;
+            line-height: 100px;
+            @include transition(all .3s ease-in-out);            
+        }
+
+        .col-sm-4 {
+            @include transition(all .2s ease);            
+            &:hover {
+                color: $dark;
+                .zmdi {
+                    font-size: 3em;
+                    color: $brand-primary;
+                }
+            }
+        }
+    }
+}
+
+.table-responsive::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.table-responsive::-webkit-scrollbar:vertical {
+    width: 0px;
+}
+
+.table-responsive::-webkit-scrollbar:horizontal {
+  -webkit-appearance: none;
+    height: 11px;
+    width: 100px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.table-responsive::-webkit-scrollbar-track { 
+    background-color: #fff; 
+    border-radius: 8px; 
+}

@@ -1,0 +1,307 @@
+<div class="page page-table" data-ng-controller="TrafficsAllCtrl">
+  <div class="row ui-section">
+    <div class="col-lg-8 clearfix">
+      <h2 class="section-header">
+        <span ng-show="country !== ''">{{country}}</span>
+        <span>Traffic</span>
+        </h2>
+    </div>
+    <div class="col-md-12">
+      <section class="panel panel-default table-dynamic cl-panel-loading">
+        <div class="panel-body">
+          <div class="table-filters">
+            <div class="row">
+              <div class="col-sm-6 col-xs-12 text-left">
+                <md-button class="md-raised btn-w-lg md-primary" data-ng-click="addToBlacklist()" ng-disabled="!selectedItemExists()">
+                  Add To Blacklist
+                </md-button>
+                <md-button class="md-raised btn-w-lg md-primary" data-ng-click="export()" style="margin-left: 20px;">
+                  Export
+                </md-button>
+                
+              </div>
+            </div>
+            <div class='divider divider-md' style="height: 1px;margin: 15px 0;"></div>
+            <div class="row">
+              <div class="col-md-2 col-xs-10" style="width: 200px">
+                <md-datepicker ng-model="fromDate" md-placeholder="From date"></md-datepicker>
+              </div>
+              <div class="col-md-2 col-xs-10" style="width: 200px">
+                <md-datepicker ng-model="toDate" md-placeholder="To date"></md-datepicker>
+              </div>
+              <div class="col-md-2 col-xs-10" style="width: 100px">
+                <md-button class="md-raised btn-w-lg md-primary" ng-disabled="!dateSelected()" data-ng-click="date()" style="margin-left: 20px;width: 100px;min-width: 0;">
+                  Go
+                </md-button>
+              </div>
+            </div>
+            <div class='divider divider-md' style="height: 1px;margin: 10px 0;"></div>
+            <div class="row">
+                <div class="col-md-5">
+                  <input type="text"
+                          placeholder="Domain"
+                          class="form-control"
+                          data-ng-model="searchDomain">
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-md-5">
+                  <input type="text"
+                          placeholder="IP Address"
+                          class="form-control"
+                          data-ng-model="searchIP">
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-md-5">
+                  <input type="text"
+                          placeholder="Geolocation"
+                          class="form-control"
+                          data-ng-model="searchGeo">
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-md-5">
+                  <input type="text"
+                          placeholder="ASO"
+                          class="form-control"
+                          data-ng-model="searchAso">
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;padding-left: 10px;">
+              <md-button class="md-raised btn-w-lg md-primary" data-ng-click="reload()">
+                Search
+              </md-button>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-5">
+                <input type="text"
+                        placeholder="Search ip/geolocation/connection data/proxy type"
+                        class="form-control"
+                        data-ng-model="search.general"
+                        data-ng-model-options='{ debounce: 1000 }'
+                        data-ng-change="searchChange()">
+            </div> -->
+              <div class="col-md-3 col-xs-2">
+                <md-progress-circular class="md-accent" md-mode="indeterminate" md-diameter="40" ng-show='searchUpdating'></md-progress-circular>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table cl-table-with-buttons traffic-table all-traffic-table">
+              <thead>
+                <tr>
+                  <th class='with-checkbox'>
+                    <md-checkbox ng-model="headerCheckbox" ng-change="toggleAllCheckboxes()" aria-label="Select"></md-checkbox>
+                  </th>
+                  <th>View</th>
+                  <th>
+                    IP Address
+                  </th>
+                  <th>
+                    Domain
+                  </th>
+                  <th>
+                    Path
+                  </th>
+                  <th>
+                    Fingerprint
+                  </th>
+                  <th ng-show="country === ''">
+                    Geolocation
+                  </th>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Time
+                  </th>
+                  <th>
+                    ASO
+                  </th>
+                  <th>
+                    Organization
+                  </th>
+                  <th>
+                    ISP
+                  </th>
+                  <th>
+                    Connection Type
+                  </th>
+                  <th>
+                    Proxy
+                  </th>
+                  <th>
+                    Hostnames
+                  </th>
+                  <th>
+                    Browser
+                  </th>
+                  <th>
+                    OS
+                  </th>
+                  <th>
+                    Referer
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="traffic in traffics" ng-class="{isBot: traffic.isBot}">
+                  <td class='with-checkbox'>
+                    <md-checkbox ng-model="traffic['selected']" aria-label="Select"></md-checkbox>
+                  </td>
+                  <td class='with-button'>
+                      <a href='/api/general-traffics/{{traffic._id}}' target="_blank" class="md-icon-button md-primary" aria-label="View Details" tooltip-placement="top"
+                        uib-tooltip="Edit" tooltip-append-to-body="true">
+                        <span class="logo-icon zmdi zmdi-view-dashboard"></span>
+                      </a>
+                    </td>
+                  <td>
+                    <div ngclipboard data-clipboard-text="{{traffic.ip}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                      <div class="ellipsis" style="max-width: 120px;">
+                        {{traffic.ip}}
+                      </div>
+                    </div>
+                    <div style="display:none">Copied</div>
+
+                    <md-tooltip md-delay="0">
+                      {{traffic.ip}}
+                    </md-tooltip>
+                  </td>
+                  <td>{{traffic.url_domain}}</td>
+                  <td>
+                    <div ngclipboard data-clipboard-text="{{traffic.url_path}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                      <div class="ellipsis" style="max-width: 275px;">
+                        {{traffic.url_path}}
+                      </div>
+                    </div>
+                    <div style="display:none">Copied</div>
+
+                    <md-tooltip md-delay="0">
+                      {{traffic.url_path}}
+                    </md-tooltip>
+                  </td>
+                  <td>{{traffic.fingerprint}}</td>
+                  <td ng-show="!country">
+                    <div>
+                      <div ngclipboard data-clipboard-text="{{traffic.short_location}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                        {{traffic.short_location}}
+                      </div>
+                      <div style="display:none">Copied</div>
+
+                      <md-tooltip md-delay="0">
+                        {{traffic.connection.location}}
+                      </md-tooltip>
+                    </div>
+                  </td>
+                  <td><span ng-bind="traffic.access_time | date:'M/d'"></span></td>
+                  <td><span ng-bind="traffic.access_time | date:'h:mm:ss a'"></span></td>
+                  <td>
+                    <div ngclipboard data-clipboard-text="{{traffic.connection.aso}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                      <div class="ellipsis" style="max-width: 150px;">
+                        {{traffic.connection.aso}}
+                      </div>
+                    </div>
+                    <div style="display:none">Copied</div>
+
+                    <md-tooltip md-delay="0">
+                      {{traffic.connection.aso}}
+                    </md-tooltip>
+                  </td>
+                  <td>
+                    <div ngclipboard data-clipboard-text="{{traffic.connection.org}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                      <div class="ellipsis" style="max-width: 150px;">
+                        {{traffic.connection.org}}
+                      </div>
+                    </div>
+                    <div style="display:none">Copied</div>
+
+                    <md-tooltip md-delay="0">
+                      {{traffic.connection.org}}
+                    </md-tooltip>
+                  </td>
+                  <td>
+                    <div ngclipboard data-clipboard-text="{{traffic.connection.isp}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                      <div class="ellipsis" style="max-width: 150px;">
+                        {{traffic.connection.isp}}
+                      </div>
+                    </div>
+                    <div style="display:none">Copied</div>
+
+                    <md-tooltip md-delay="0">
+                      {{traffic.connection.isp}}
+                    </md-tooltip>
+                  </td>
+                  <td>{{traffic.connection.type}}</td>
+                  <td>{{traffic.connection.proxy}}</td>
+                  <td>
+                    <div ng-show="traffic.numHostnames > 0">
+                      <div ngclipboard data-clipboard-text="{{traffic.hostnames}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                        <div class="ellipsis" style="max-width: 150px;">
+                          {{traffic.numHostnames}} - {{traffic.hostnames}}
+                        </div>
+                      </div>
+                      <div style="display:none">Copied</div>
+
+                      <md-tooltip md-delay="0">
+                        {{traffic.hostnames}}
+                      </md-tooltip>
+                    </div>
+                  </td>
+                  <td>{{traffic.browser}}</td>
+                  <td>{{traffic.os}}</td>
+                  <td>
+                    <div>
+                      <div ngclipboard data-clipboard-text="{{traffic.referer}}" ngclipboard-success="onSuccess(e);" style="cursor:pointer">
+                        {{traffic.headers.referer}}
+                      </div>
+                      <div style="display:none">Copied</div>
+
+                      <md-tooltip md-delay="0" style="height: 100px;">
+                        <div style="width: 150px; word-break: break-all;height: 100px;">{{traffic.headers.referer}}</div>
+                      </md-tooltip>
+                    </div>
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <footer class="table-footer">
+          <div class="row">
+            <div class="col-md-6 page-num-info">
+              <span>
+              Show 
+              <select data-ng-model="numPerPage"
+                data-ng-options="num for num in numPerPageOpt"
+                data-ng-change="onNumPerPageChange()">
+              </select> 
+              entries per page
+              </span>
+            </div>
+            <div class="col-md-6 page-num-info"></div>
+            <div class="col-md-6 text-right pagination-container">
+              <ul class="pagination-sm pagination ng-isolate-scope ng-valid" ng-model="currentPage" boundary-links="true" aria-invalid="false">
+                <li ng-disabled="!hasPrev()" class="pagination-first ng-scope">
+                  <a href="" ng-click="firstPage()" class="ng-binding">First</a>
+                </li>
+                <li ng-disabled="!hasPrev()" class="pagination-first ng-scope">
+                  <a href="" ng-click="prevPage()" class="ng-binding">Prev</a>
+                </li>
+                <li class="pagination-last ng-scope" style="padding: 5px 8px;font-size: 12px;line-height: 20px;position: relative;float: left;margin-left: 10px;">
+                  Page {{page()}}
+                </li>
+                <li ng-disabled="!hasNext()" class="pagination-last ng-scope" style="">
+                  <a href="" ng-click="nextPage()" class="ng-binding">Next</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+</div>
