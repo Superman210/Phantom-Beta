@@ -29,8 +29,7 @@ function parseUserAgent(userAgent) {
 
   if (parseInt(agent.major, 10)) browser += ' ' + agent.major;
   if (parseInt(agent.os.major, 10)) os += ' ' + agent.os.major;
-
-  return { browser, os }; 
+  return { browser, os };
 }
 
 function formatTrafficRecordCSV(t) {
@@ -97,7 +96,6 @@ function getReferers(req, res) {
 
 function getLinkTrafficRecord(req, res, next) {
   var id = req.params.id;
-
   LinkTraffic.findById(id, (err, record) => {
     if (err)
       next(err);
@@ -108,7 +106,6 @@ function getLinkTrafficRecord(req, res, next) {
 
 function getGeneralTrafficRecord(req, res, next) {
   var id = req.params.id;
-
   GeneralTraffic.findById(id, (err, record) => {
     if (err)
       next(err);
@@ -232,7 +229,6 @@ function searchFieldToRegExp(search) {
 function getGeneralTrafficSearch(req) {
   let { domain, ip, geo, aso } = req.query;
   let fields = [];
-
   if (domain) {
     fields.push({
       'url': searchFieldToRegExp(domain)
@@ -287,7 +283,6 @@ function getGeneralTraffics(req, res) {
 
 function getTraffics(req, res, model, searchFunc) {
   var { limit, format } = req.query;
-
   limit = limit ? parseInt(limit) : 10;
 
   if (format === "csv")
@@ -296,7 +291,6 @@ function getTraffics(req, res, model, searchFunc) {
   var query = {};
   let base = getBaseQuery(req);
   let search = searchFunc(req);
-  
   let hasBase = Object.keys(base).length;
   let hasSearch = Object.keys(search).length;
 
@@ -309,7 +303,7 @@ function getTraffics(req, res, model, searchFunc) {
   else if (hasSearch)
     query = search;
 
-  console.log('query', query);
+  // console.log('query', query);
 
   async.parallel({
 

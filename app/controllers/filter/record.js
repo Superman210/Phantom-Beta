@@ -44,7 +44,6 @@ function recordLinkTraffic(used_real, info, requestingIP, time, isBot, flag) {
   if (requestingIP === config.serverHostname) return;
   
   let { req, ip, link, connection, filter, notes } = info;
-
   let record = Object.assign(
     trafficRecordLink(req, ip, connection, link, time, isBot, flag),
     { used_real, filter, notes }

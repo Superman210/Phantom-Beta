@@ -26,6 +26,7 @@
     "json2csv": "^3.11.5",
     "line-by-line": "^0.1.5",
     "lodash": "^4.17.4",
+    "mailgun": "^0.5.0",
     "maxmind": "^2.3.0",
     "moment": "^2.19.2",
     "moment-timezone": "^0.5.14",

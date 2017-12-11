@@ -22,7 +22,6 @@ function _proxy(req, res, target, host) {
     }
   }, (err, req) => {
     if (err.code === 'ECONNRESET') return;
-
     console.error(err);
     console.error('target:', target);
     console.error(req.hostname + req.url);
@@ -59,9 +58,8 @@ function proxy(req, res, host, path, trafficID) {
       return respData.replace('</body>', `<script type="text/javascript">${contents}</script></body>`);
     });
   }
-
-
   _proxy(req, res, target, host);
+
 }
 
 function proxyPresale(req, res, host, urlPath, voluum, trafficID) {
@@ -117,7 +115,6 @@ function proxyPresalePage(req, res, ip, link, trafficID) {
 
     let originalLocation = response.headers.location;
     let cookies = helpers.getSetCookies(response.headers['set-cookie']);
-
     if (!originalLocation) {
       console.error("Error invalid location " + originalLocation);
       return proxySafe(req, res);

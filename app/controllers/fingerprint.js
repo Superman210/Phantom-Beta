@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const { getClientIP } = require("./filter/helpers");
 const { getConnectionInfo } = require("./filter/connection");
-
+console.log(getConnectionInfo)
 const TrafficGeneral = mongoose.model('Traffic-General');
 
 const FP_FILE = __dirname + '/../files/fingerprint.js';

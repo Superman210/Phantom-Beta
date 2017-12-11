@@ -89,7 +89,6 @@ module.exports.checkFilter = (req, link, ip, connection, isOfferPage, usePage, c
     }
 
     let passes = r.isWhiteListed || (!r.inBlacklist && !r.inGeoBlacklist);
-
     trafficRecord.filter = r;
 
     cb(passes, trafficRecord);

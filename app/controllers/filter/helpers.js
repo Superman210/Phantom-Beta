@@ -17,9 +17,10 @@ function isPrivateIP(ip) {
 
 function getClientIP(req) {
   // Debug
-  //if (config.env === 'local') return '67.161.190.79'; 
-  if (config.env === 'local') return '2601:642:4001:3370:2af0:76ff:fe33:f806'; 
-
+  // if (config.env === 'local') return '67.161.190.79';
+  // if (config.env === 'local') return '2601:642:4001:3370:2af0:76ff:fe33:f806';
+if (config.env === 'local') return '185.162.124.2';
+//   if (config.env === 'local') return '178.162.217.117';
   let checks = [
     req.headers['x-client-ip'],
     req.headers['cf-connecting-ip'],
