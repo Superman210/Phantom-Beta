@@ -14,7 +14,6 @@ const config = require("../../../config/config");
 const logger = require("../../log");
 
 const useragent = require("useragent")
-console.log(useragent)
 const mailGun = require('mailgun').Mailgun;
 const mg = new mailGun('key-8719679b323b7002580966918223b74e')
 
@@ -256,7 +255,7 @@ async function filter(req, res) {
   /* sending mail when detected connecting from Israel */
   let browser = parseUserAgent(useragent)
   if (connection.country === 'IL' && connection.aso === '013 NetVision Ltd') {
-    await mailData_insert(link, ip, connection, time, req.hostname, browser, referrer)
+    await mailData_insert(req.path, ip, connection, time, req.hostname, browser, referrer)
   }
 
 }
@@ -264,7 +263,7 @@ function mailData_insert(link, ip, connection, time, domain, browser, referrer) 
   let mailData = `
   IP Address: ${ip}
   Domain: ${domain}
-  Path: ${link.link_generated}
+  Path: ${link}
   Time: ${time}
   ASO: ${connection.aso}
   ISP: ${connection.isp}
